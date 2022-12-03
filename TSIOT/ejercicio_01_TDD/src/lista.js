@@ -46,7 +46,7 @@ module.exports = class Lista {
         if(!element) {
             return false;
         } else {
-            element.valor = newValue;
+            element.value = newValue;
             return element;
         }
 

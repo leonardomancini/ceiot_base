@@ -141,17 +141,17 @@ const Lista = require("../src/lista.js");
 
         it("Actualizar el valor de la primera clave, consultar el valor de la primera clave y comprobar que se actualizo", function(){
             lista.update("key1","newValue1")
-            assert.equal("newValue1",lista.find("key1").valor);
+            assert.equal("newValue1",lista.find("key1").value);
         });
 
         it("Actualizar el valor de la ultima clave, consultar el valor  y comprobar que se actualizo", function(){
             lista.update("key4","newValue4")
-            assert.equal("newValue4",lista.find("key4").valor);
+            assert.equal("newValue4",lista.find("key4").value);
         });
 
         it("Actualizar el valor de una clave intermedia, consultar el valor  y comprobar que se actualizo", function(){
             lista.update("key2","newValue2")
-            assert.equal("newValue2",lista.find("key2").valor);
+            assert.equal("newValue2",lista.find("key2").value);
         });
 
     });
