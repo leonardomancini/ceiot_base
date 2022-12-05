@@ -1,0 +1,1407 @@
+{
+	"info": {
+		"_postman_id": "338927f4-e039-4a0f-a407-48fffb1fd753",
+		"name": "Valves",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4127360"
+	},
+	"item": [
+		{
+			"name": "authentication",
+			"item": [
+				{
+					"name": "authenticate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"test\",\n    \"password\":\"1234\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/authenticate",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signin bad password",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Origin",
+								"value": "{{origin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"no_user\",\n    \"password\":\"no_pass\"\n}"
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/authenticate",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signin as inexistent User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "Origin",
+								"value": "{{origin}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"no_user\",\n    \"password\":\"no_pass\"\n}"
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/authenticate",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "devices",
+			"item": [
+				{
+					"name": "add device",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 201\"] = responseCode.code === 201;",
+									"var data = JSON.parse(responseBody);",
+									"tests[\"Body has dispositivoId\"] = responseBody.has(\"dispositivoId\");",
+									"pm.collectionVariables.set(\"DEVICE_ID\",data.dispositivoId); ",
+									"pm.collectionVariables.set(\"SOLENOID_ID\",data.electrovalvulaId); ",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"electrovalvula\":\"test\",\n    \"nombre\":\"electrovalvula\"\n    \n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/dispositivos",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"dispositivos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add device without token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 201\"] = responseCode.code === 201;",
+									"var data = JSON.parse(responseBody);",
+									"tests[\"Body has dispositivoId\"] = responseBody.has(\"dispositivoId\");",
+									"pm.collectionVariables.set(\"DEVICE_ID\",data.dispositivoId); ",
+									"pm.collectionVariables.set(\"SOLENOID_ID\",data.electrovalvulaId); ",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"electrovalvula\":\"test\",\n    \"nombre\":\"electrovalvula\"\n    \n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/dispositivos",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"dispositivos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add device bad token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"Status code is 201\"] = responseCode.code === 201;",
+									"var data = JSON.parse(responseBody);",
+									"tests[\"Body has dispositivoId\"] = responseBody.has(\"dispositivoId\");",
+									"pm.collectionVariables.set(\"DEVICE_ID\",data.dispositivoId); ",
+									"pm.collectionVariables.set(\"SOLENOID_ID\",data.electrovalvulaId); ",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"electrovalvula\":\"test\",\n    \"nombre\":\"electrovalvula\"\n    \n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/dispositivos",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"dispositivos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all devices",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var data = JSON.parse(responseBody).slice(0,2);;",
+									"",
+									"var expected = [",
+									"    {",
+									"        \"dispositivoId\": data[0].dispositivoId,",
+									"        \"nombre\":  data[0].nombre,",
+									"        \"ubicacion\":  data[0].ubicacion,",
+									"        \"electrovalvulaId\":  data[0].electrovalvulaId,",
+									"        \"deleted\":  data[0].deleted,",
+									"        \"usuarioId\":  data[0].usuarioId",
+									"    },",
+									"    {",
+									"        \"dispositivoId\": data[1].dispositivoId,",
+									"        \"nombre\":  data[1].nombre,",
+									"        \"ubicacion\":  data[1].ubicacion,",
+									"        \"electrovalvulaId\":  data[1].electrovalvulaId,",
+									"        \"deleted\":  data[1].deleted,",
+									"        \"usuarioId\":  data[1].usuarioId",
+									"    }",
+									"];",
+									"",
+									"",
+									"",
+									"pm.test(\"Content is a list of devices\", function () {",
+									"    console.log('content:'+data);",
+									"    pm.expect(data).to.eql(expected);",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/dispositivos",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"dispositivos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get device by id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var url = pm.collectionVariables.get(\"API_URL\");",
+									"var token = 'Bearer ' + pm.environment.get(\"access_token\"); ",
+									"",
+									"pm.sendRequest({",
+									"    url: url + \"/api/dispositivos\" ,",
+									"    method: 'POST',",
+									"    header: {",
+									"        \"Content-Type\":\"application/json\",",
+									"        \"Authorization\":token",
+									"        } ,",
+									"    body:{",
+									"        mode: \"raw\",",
+									"        raw: JSON.stringify({",
+									"            electrovalvula:\"electrovalvula\",",
+									"            nombre:\"test-delete\"",
+									"        })",
+									"    }},",
+									"     ",
+									"    function (err, response) {",
+									"        pm.collectionVariables.set(\"DEVICE_ID\",response.json()[\"dispositivoId\"] ); ",
+									"        pm.collectionVariables.set(\"SOLENOID_ID\",response.json()[\"electrovalvulaId\"] ); ",
+									"      ",
+									"    ",
+									"    }",
+									");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var data = JSON.parse(responseBody).slice(0,2);;",
+									"",
+									"var expected = [",
+									"    {",
+									"        \"dispositivoId\": pm.collectionVariables.get(\"DEVICE_ID\"),",
+									"        \"nombre\":  data[0].nombre,",
+									"        \"ubicacion\":  data[0].ubicacion,",
+									"        \"electrovalvulaId\":  pm.collectionVariables.get(\"SOLENOID_ID\"),",
+									"        \"deleted\":  0,",
+									"        \"usuarioId\":  data[0].usuarioId",
+									"    }",
+									"];",
+									"",
+									"",
+									"",
+									"pm.test(\"Content of device\", function () {",
+									"    console.log('content:'+data);",
+									"    pm.expect(data).to.eql(expected);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/dispositivos/{{DEVICE_ID}}",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"dispositivos",
+								"{{DEVICE_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get device by id not ioslated",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var url = pm.collectionVariables.get(\"API_URL\");",
+									"var token = 'Bearer ' + pm.environment.get(\"access_token\"); ",
+									"",
+									"pm.sendRequest({",
+									"    url: url + \"/api/dispositivos\" ,",
+									"    method: 'POST',",
+									"    header: {",
+									"        \"Content-Type\":\"application/json\",",
+									"        \"Authorization\":token",
+									"        } ,",
+									"    body:{",
+									"        mode: \"raw\",",
+									"        raw: JSON.stringify({",
+									"            electrovalvula:\"electrovalvula\",",
+									"            nombre:\"test-delete\"",
+									"        })",
+									"    }},",
+									"     ",
+									"    function (err, response) {",
+									"        pm.collectionVariables.set(\"DEVICE_ID\",response.json()[\"dispositivoId\"] ); ",
+									"        pm.collectionVariables.set(\"SOLENOID_ID\",response.json()[\"electrovalvulaId\"] ); ",
+									"      ",
+									"    ",
+									"    }",
+									");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var data = JSON.parse(responseBody).slice(0,2);;",
+									"",
+									"var expected = [",
+									"    {",
+									"        \"dispositivoId\": pm.collectionVariables.get(\"DEVICE_ID\"),",
+									"        \"nombre\":  data[0].nombre,",
+									"        \"ubicacion\":  data[0].ubicacion,",
+									"        \"electrovalvulaId\":  pm.collectionVariables.get(\"SOLENOID_ID\"),",
+									"        \"deleted\":  0,",
+									"        \"usuarioId\":  data[0].usuarioId",
+									"    }",
+									"];",
+									"",
+									"",
+									"",
+									"pm.test(\"Content of device\", function () {",
+									"    console.log('content:'+data);",
+									"    pm.expect(data).to.eql(expected);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/dispositivos/{{DEVICE_ID}}",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"dispositivos",
+								"{{DEVICE_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get device by id not exists",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									"var data = JSON.parse(responseBody);",
+									"",
+									"var expected = ",
+									"    {",
+									"        \"code\": 'DEVICE_NOT_FOUND',",
+									"        \"message\":  'device not found'",
+									"    }",
+									";",
+									"",
+									"",
+									"",
+									"pm.test(\"Content of body\", function () {",
+									"    pm.expect(data).to.eql(expected);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/dispositivos/0",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"dispositivos",
+								"0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get last measurement",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var url = pm.collectionVariables.get(\"API_URL\");",
+									"var token = 'Bearer ' + pm.environment.get(\"access_token\"); ",
+									"",
+									"pm.sendRequest({",
+									"    url: url + \"/api/dispositivos\" ,",
+									"    method: 'POST',",
+									"    header: {",
+									"        \"Content-Type\":\"application/json\",",
+									"        \"Authorization\":token",
+									"        } ,",
+									"    body:{",
+									"        mode: \"raw\",",
+									"        raw: JSON.stringify({",
+									"            electrovalvula:\"electrovalvula\",",
+									"            nombre:\"test-delete\"",
+									"        })",
+									"    }},",
+									"     ",
+									"    function (err, response) {",
+									"        pm.collectionVariables.set(\"DEVICE_ID\",response.json()[\"dispositivoId\"] ); ",
+									"        pm.collectionVariables.set(\"SOLENOID_ID\",response.json()[\"electrovalvulaId\"] ); ",
+									"        pm.sendRequest({",
+									"    url: url + \"/api/mediciones\" ,",
+									"    method: 'POST',",
+									"    header: {",
+									"        \"Content-Type\":\"application/json\",",
+									"        \"Authorization\":token",
+									"        } ,",
+									"    body:{",
+									"        mode: \"raw\",",
+									"        raw: JSON.stringify({",
+									"             valor: 10,",
+									"             dispositivoId:  pm.collectionVariables.get(\"DEVICE_ID\")",
+									"        })",
+									"    }},",
+									"     ",
+									"    function (err, response) {",
+									"        ",
+									"      ",
+									"    ",
+									"    }",
+									");",
+									"    ",
+									"    }",
+									");",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var data = JSON.parse(responseBody).slice(0,1);",
+									"",
+									"var expected = [",
+									"    {",
+									"        \"medicionId\":data[0].medicionId,",
+									"        \"fecha\": data[0].fecha,",
+									"        \"valor\": data[0].valor,",
+									"        \"dispositivoId\": pm.collectionVariables.get(\"DEVICE_ID\")",
+									"    }",
+									"];",
+									"",
+									"",
+									"",
+									"pm.test(\"Content OF BODY\", function () {",
+									"    pm.expect(data).to.eql(expected);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/dispositivos/{{DEVICE_ID}}/ultima-medicion",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"dispositivos",
+								"{{DEVICE_ID}}",
+								"ultima-medicion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all measurements by device id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"var data = JSON.parse(responseBody).slice(0,2);",
+									"",
+									"var expected = [",
+									"    {",
+									"        \"medicionId\":data[0].medicionId,",
+									"        \"fecha\": data[0].fecha,",
+									"        \"valor\": data[0].valor,",
+									"        \"dispositivoId\": data[0].dispositivoId",
+									"    }",
+									"];",
+									"",
+									"",
+									"",
+									"pm.test(\"Content is a list of measurements\", function () {",
+									"    console.log('content:'+data);",
+									"    pm.expect(data).to.eql(expected);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/dispositivos/{{DEVICE_ID}}/mediciones",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"dispositivos",
+								"{{DEVICE_ID}}",
+								"mediciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "del device by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var url = pm.collectionVariables.get(\"API_URL\");",
+									"var token = 'Bearer ' + pm.environment.get(\"access_token\"); ",
+									"",
+									"pm.sendRequest({",
+									"    url: url + \"/api/dispositivos\" ,",
+									"    method: 'POST',",
+									"    header: {",
+									"        \"Content-Type\":\"application/json\",",
+									"        \"Authorization\":token",
+									"        } ,",
+									"    body:{",
+									"        mode: \"raw\",",
+									"        raw: JSON.stringify({",
+									"            electrovalvula:\"electrovalvula\",",
+									"            nombre:\"test-delete\"",
+									"        })",
+									"    }},",
+									"     ",
+									"    function (err, response) {",
+									"        pm.collectionVariables.set(\"DEVICE_ID\",response.json()[\"dispositivoId\"] ); ",
+									"       ",
+									"      ",
+									"    ",
+									"    }",
+									");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/dispositivos/{{DEVICE_ID}}",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"dispositivos",
+								"{{DEVICE_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "del device when not exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/dispositivos/0",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"dispositivos",
+								"0"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var url = pm.collectionVariables.get(\"API_URL\");",
+							"pm.sendRequest({",
+							"    url: url + \"/api/authenticate\" ,",
+							"    method: 'POST',",
+							"    header: {",
+							"        \"Content-Type\":\"application/json\"",
+							"        } ,",
+							"    body:{",
+							"        mode: \"raw\",",
+							"        raw: JSON.stringify({",
+							"            username:\"test\",",
+							"            password:\"1234\"",
+							"        })",
+							"    }},",
+							"     ",
+							"    function (err, response) {",
+							"        pm.environment.set(\"access_token\",response.json()[\"token\"] ); ",
+							"    ",
+							"    }",
+							");"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "measurements",
+			"item": [
+				{
+					"name": "create measurement",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var url = pm.collectionVariables.get(\"API_URL\");",
+									"var token = 'Bearer ' + pm.environment.get(\"access_token\"); ",
+									"",
+									"pm.sendRequest({",
+									"    url: url + \"/api/dispositivos\" ,",
+									"    method: 'POST',",
+									"    header: {",
+									"        \"Content-Type\":\"application/json\",",
+									"        \"Authorization\":token",
+									"        } ,",
+									"    body:{",
+									"        mode: \"raw\",",
+									"        raw: JSON.stringify({",
+									"            electrovalvula:\"electrovalvula\",",
+									"            nombre:\"test-delete\"",
+									"        })",
+									"    }},",
+									"     ",
+									"    function (err, response) {",
+									"        pm.collectionVariables.set(\"DEVICE_ID\",response.json()[\"dispositivoId\"] ); ",
+									"       ",
+									"      ",
+									"    ",
+									"    }",
+									");",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n    \"valor\": 10,\n    \"dispositivoId\": {{DEVICE_ID}}\n\n\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/mediciones",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"mediciones"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create measurement device not exists",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n    \"valor\": 10,\n    \"dispositivoId\": 0\n\n\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/api/mediciones",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"mediciones"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var url = pm.collectionVariables.get(\"API_URL\");",
+							"pm.sendRequest({",
+							"    url: url + \"/api/authenticate\" ,",
+							"    method: 'POST',",
+							"    header: {",
+							"        \"Content-Type\":\"application/json\"",
+							"        } ,",
+							"    body:{",
+							"        mode: \"raw\",",
+							"        raw: JSON.stringify({",
+							"            username:\"test\",",
+							"            password:\"1234\"",
+							"        })",
+							"    }},",
+							"     ",
+							"    function (err, response) {",
+							"        pm.environment.set(\"access_token\",response.json()[\"token\"] ); ",
+							"    ",
+							"    }",
+							");"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "solenoid valves",
+			"item": [
+				{
+					"name": "get logs",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/electrovalvulas/{{DEVICE_ID}}/logs",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"electrovalvulas",
+								"{{DEVICE_ID}}",
+								"logs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "open",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/electrovalvulas/{{DEVICE_ID}}/open",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"electrovalvulas",
+								"{{DEVICE_ID}}",
+								"open"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "close",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/api/electrovalvulas/{{DEVICE_ID}}/open",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"api",
+								"electrovalvulas",
+								"{{DEVICE_ID}}",
+								"open"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var url = pm.collectionVariables.get(\"API_URL\");",
+							"pm.sendRequest({",
+							"    url: url + \"/api/authenticate\" ,",
+							"    method: 'POST',",
+							"    header: {",
+							"        \"Content-Type\":\"application/json\"",
+							"        } ,",
+							"    body:{",
+							"        mode: \"raw\",",
+							"        raw: JSON.stringify({",
+							"            username:\"test\",",
+							"            password:\"1234\"",
+							"        })",
+							"    }},",
+							"     ",
+							"    function (err, response) {",
+							"        pm.environment.set(\"access_token\",response.json()[\"token\"] ); ",
+							"    ",
+							"    }",
+							");"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "API_URL",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "DEVICE_ID",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "SOLENOID_ID",
+			"value": ""
+		},
+		{
+			"key": "access_token",
+			"value": ""
+		}
+	]
+}

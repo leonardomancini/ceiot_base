@@ -1,0 +1,42 @@
+version: "3"
+networks: 
+  app-fullstack-net: 
+    driver: bridge
+services: 
+  
+  mysql-admin: 
+    depends_on: 
+      - mysql-server
+    environment: 
+      MYSQL_ROOT_PASSWORD: userpass
+      PMA_HOST: mysql-server
+      PMA_PORT: 3306
+    image: phpmyadmin/phpmyadmin
+    networks: 
+      - app-fullstack-net
+    ports: 
+      - "8001:80"
+  mysql-server: 
+    environment: 
+      MYSQL_ROOT_PASSWORD: userpass
+    hostname: mysql-server
+    image: "mysql:5.7"
+    networks: 
+      - app-fullstack-net
+    volumes: 
+      - "./db/dumps/start-schema.sql:/docker-entrypoint-initdb.d/1.sql"
+      - "./db/dumps/initial-data.sql:/docker-entrypoint-initdb.d/2.sql"
+      - "./db/data:/var/lib/mysql"
+  node-backend: 
+    command: "bash -c \"cd /home/node/app/src && npm install && nodemon index.js\""
+    depends_on: 
+      - mysql-server
+    image: "abassi/nodejs-server:10.0-dev"
+    networks: 
+      - app-fullstack-net
+    ports: 
+      - "8000:3000"
+    volumes: 
+      - "./backend:/home/node/app/src"
+
+

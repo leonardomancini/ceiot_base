@@ -22,11 +22,6 @@ routerDispositivo.get('/:id', jwtValidator, function(req, res) {
                 if (err) {
                     res.send(err).status(400);
                     return;
-                } else {
-                    if(result.length == 0) {
-                        res.status(404).send({code:'DEVICE_NOT_FOUND', message:'device not found' });
-                        return;
-                    }
                 }
                 res.send(result);
             });
@@ -77,30 +72,15 @@ routerDispositivo.post("/", jwtValidator, function(req, res) {
 routerDispositivo.delete("/:id", function(req,res) {
     let sql = "UPDATE Dispositivos set deleted = true WHERE dispositivoId = ?";
 
-    let query = 'Select * from Dispositivos d  WHERE d.dispositivoId = ? AND d.deleted = false'
-        pool.query(query, [req.params.id], function(err, result, fields) {
-                if (err) {
-                    res.send(err).status(400);
-                    return;
-                } else {
-                    if(result.length == 0) {
-                        res.status(400).send({code:'DEVICE_NOT_FOUND', message:'device not found' });
-                        return;
-                    }
-                }
-                pool.query(sql, [req.params.id], function(err, result, fields) {
-                    if (err) {
-                        res.send(err).status(400);
-                        return;
-                    }
-                    res.send(result);
-                });
-            });
-    
-   
     
 
-   
+    pool.query(sql, [req.params.id], function(err, result, fields) {
+        if (err) {
+            res.send(err).status(400);
+            return;
+        }
+        res.send(result);
+    });
 
 });
 
