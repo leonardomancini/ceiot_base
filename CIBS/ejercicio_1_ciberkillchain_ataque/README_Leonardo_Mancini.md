@@ -16,11 +16,7 @@ Armar una cyberkillchain usando técnicas de la matriz de Att&ck para mi trabajo
 El trabajo practico consiste en una alarma sensora de presencia de CO que estará conectada a Internet mediante Wi-Fi. El objetivo de la alarma es sensar peridicamente el nivel de CO y en caso de superarse el umbar de peligro se enviará un evento de alerta al servidor cloud. 
 También cuenta con un módulo GSM con una SIM para enviar a contactos asociados un mensaje de alerta. La alarma puede ser configurada mediante una aplicación móvil que funciona en ANdroid y Ios. El cliente, luego de adquirir el producto, es dado de alta en el sistema para que pueda ser monitoreado, ya que la empresa al recibir un evento de alarama envia alguien al hogar para ver la situacion y proceder al auxilio.
 
-Diagrama del sistema:
 
-
-
-![](./images/trabajo_final.png)
 
 ## Resolución
 
