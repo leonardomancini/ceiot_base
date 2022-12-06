@@ -16,6 +16,9 @@ Armar una cyberkillchain usando técnicas de la matriz de Att&ck para mi trabajo
 El trabajo practico consiste en una alarma sensora de presencia de CO que estará conectada a Internet mediante Wi-Fi. El objetivo de la alarma es sensar peridicamente el nivel de CO y en caso de superarse el umbar de peligro se enviará un evento de alerta al servidor cloud. 
 También cuenta con un módulo GSM con una SIM para enviar a contactos asociados un mensaje de alerta. La alarma puede ser configurada mediante una aplicación móvil que funciona en ANdroid y Ios. El cliente, luego de adquirir el producto, es dado de alta en el sistema para que pueda ser monitoreado, ya que la empresa al recibir un evento de alarama envia alguien al hogar para ver la situacion y proceder al auxilio.
 
+
+![plot](../images/trabajo_final.png)
+
 ## Resolución
 
 ### Reconnaissance
@@ -38,7 +41,7 @@ Realizar garbaging para buscar en la basura de la empresa cualquier documento o 
 
 ####
 Redactar mails falsos para realizar phshing a clientes y empleados. Para los cliente redactar un mail con el template correcto que tenga un link similar al sitio de la empresa invitando a cambiar de contraseña.
-Para el caso de los empleados enviar mails falsos de propuestas laborales para conocer mas del producto. Luego con esa información enviar mail de phighin solictando acceso a la nube de desarrollo (en este caso GCP)
+Para el caso de los empleados enviar mails falsos de propuestas laborales para conocer mas del producto. Luego con esa información enviar mail de phighin solictando acceso a la nube de desarrollo (en este caso AWS)
 Utilizar analizadores de trafico como wireshark para sniffear el trafico de la alarma hacia la nube para luego con una herramienta como burp generar trafico falso.
 Desarrollar una copia del firmware que, utilizando el certificado correcto, envíe información falsa a los servidores y ademas permita acceder remotamente al dispositivo. Esto último se podría realizar instalando un broker mqtt propio y que el dispostivo se suscriba ahí.
 
@@ -62,6 +65,5 @@ Mediante OTA se instalará la nueva versión del firmware corrupto.
 ### Actions on Objectives
 El atacante puede generar falsos eventos de alarma, eliminar contactos, puede saturar el sistema enviando alarmas falsos de clientes falsos todo esto para generar una mala imagen de la empresa. 
 Por último al ser un producto del que depende la vida humana se corre el riesgo de perdidad muy valiosas.
-
 
 
