@@ -18,7 +18,7 @@ También cuenta con un módulo GSM con una SIM para enviar a contactos asociados
 
 Diagrama del sistema:
 
-![](./imgages/trabajo_final.png)
+![](./images/trabajo_final.png)
 
 ## Resolución
 
